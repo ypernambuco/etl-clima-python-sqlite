@@ -11,6 +11,7 @@ OUTPUT_COLUMNS = [
     "temperatura_minima_c",
     "temperatura_media_c",
     "precipitacao_mm",
+    "tipo_dado",
     "horas_chuva",
     "vento_maximo_kmh",
     "data_coleta",
@@ -35,6 +36,11 @@ def transform_city_weather(payload: dict) -> pd.DataFrame:
     dataframe["cidade"] = payload["cidade"]
     dataframe["estado"] = payload["estado"]
     dataframe["data_coleta"] = payload["data_coleta"]
+    data_coleta = pd.to_datetime(payload["data_coleta"], errors="coerce").date()
+    datas = pd.to_datetime(dataframe["data"], errors="coerce").dt.date
+    dataframe["tipo_dado"] = datas.apply(
+        lambda data: "historico" if pd.notna(data) and data < data_coleta else "previsao"
+    )
     return dataframe[OUTPUT_COLUMNS]
 
 

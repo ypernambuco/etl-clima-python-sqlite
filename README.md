@@ -2,6 +2,8 @@
 
 Projeto simples de ETL para consumir dados de clima de uma API pública, transformar os dados com pandas, salvar em SQLite e gerar métricas básicas por cidade.
 
+O pipeline busca os últimos 7 dias de dados recentes e mantém a previsão futura, usando a Forecast API da Open-Meteo com o parâmetro `past_days=7`.
+
 A ideia é praticar um fluxo comum em dados:
 
 ```text
@@ -12,9 +14,11 @@ O objetivo foi manter o projeto pequeno, organizado e fácil de explicar em entr
 
 ## Objetivo
 
-- consumir dados de clima usando a API Open-Meteo;
-- transformar os dados com pandas;
-- salvar os dados tratados em SQLite;
+- consumir dados diários de clima pela API Open-Meteo;
+- buscar dados recentes dos últimos 7 dias;
+- manter dados de previsão futura;
+- organizar os dados em formato tabular com pandas;
+- salvar os dados tratados em um banco SQLite local;
 - gerar métricas simples por cidade.
 
 ## Estrutura
@@ -30,6 +34,7 @@ etl-clima-python-sqlite/
 |   |-- metricas_clima.sql
 |-- assets/
 |   |-- screenshots/
+|   |   |-- terminal-etl.png
 |-- src/
 |   |-- __init__.py
 |   |-- config.py
@@ -50,7 +55,9 @@ Os dados são consumidos da API pública da Open-Meteo:
 
 https://open-meteo.com/en/docs
 
-Neste projeto, a consulta usa previsão diária para algumas capitais brasileiras:
+Neste projeto, a consulta usa dados diários para algumas capitais brasileiras, juntando histórico recente e previsão em uma única base.
+
+A Forecast API da Open-Meteo aceita o parâmetro `past_days`, com valores de `0` a `92`. Por isso, o projeto usa `past_days=7` no mesmo endpoint de previsão, sem precisar chamar a Archive API para este escopo.
 
 - São Paulo
 - Rio de Janeiro
@@ -91,9 +98,19 @@ Também dá para escolher quantos dias de previsão consultar:
 python -m src.main --forecast-days 3
 ```
 
-## Exemplo De Execução
+Também é possível ajustar a quantidade de dias recentes buscados:
+
+```bash
+python -m src.main --past-days 7
+```
+
+## Screenshot
+
+### ETL rodando no terminal
 
 ![Execução do ETL de clima no terminal](assets/screenshots/terminal-etl.png)
+
+O print fica logo depois do comando de execução para mostrar o pipeline funcionando na prática, antes da explicação etapa por etapa.
 
 ## O Que O Pipeline Faz
 
@@ -104,6 +121,11 @@ python -m src.main --forecast-days 3
 5. Carrega os dados em SQLite na tabela `clima_diario`.
 6. Calcula métricas simples por cidade.
 7. Salva as métricas em `data/processed/metricas_clima.csv`.
+
+O CSV e a tabela SQLite incluem a coluna `tipo_dado`, com os valores:
+
+- `historico`: datas anteriores ao dia da coleta;
+- `previsao`: o dia da coleta e os próximos dias.
 
 Os arquivos gerados são ignorados pelo Git para manter o repositório mais limpo.
 
@@ -150,7 +172,7 @@ A divisão entre extração, transformação, carga e métricas ajudou a deixar 
 O projeto ainda tem algumas limitações:
 
 - usa poucas cidades;
-- consulta apenas dados de previsão diária;
+- consulta apenas dados diários, sem granularidade por hora;
 - as chamadas da API são feitas de forma sequencial;
 - usa SQLite local;
 - não possui agendamento automático;

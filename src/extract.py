@@ -5,15 +5,20 @@ from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import urlopen
 
-from src.config import DAILY_VARIABLES, FORECAST_DAYS, OPEN_METEO_URL, TIMEZONE
+from src.config import DAILY_VARIABLES, FORECAST_DAYS, OPEN_METEO_URL, PAST_DAYS, TIMEZONE
 
 
-def build_weather_url(city: dict, forecast_days: int = FORECAST_DAYS) -> str:
+def build_weather_url(
+    city: dict,
+    forecast_days: int = FORECAST_DAYS,
+    past_days: int = PAST_DAYS,
+) -> str:
     params = {
         "latitude": city["latitude"],
         "longitude": city["longitude"],
         "daily": ",".join(DAILY_VARIABLES),
         "timezone": TIMEZONE,
+        "past_days": past_days,
         "forecast_days": forecast_days,
     }
     return f"{OPEN_METEO_URL}?{urlencode(params)}"
@@ -23,11 +28,12 @@ def fetch_weather_for_city(
     city: dict,
     logger: logging.Logger,
     forecast_days: int = FORECAST_DAYS,
+    past_days: int = PAST_DAYS,
 ) -> dict:
     city_name = city["cidade"]
     logger.info("Buscando dados de clima: %s", city_name)
 
-    url = build_weather_url(city, forecast_days)
+    url = build_weather_url(city, forecast_days, past_days)
     with urlopen(url, timeout=30) as response:
         payload = json.loads(response.read().decode("utf-8"))
 
@@ -43,11 +49,12 @@ def fetch_weather_data(
     cities: list[dict],
     logger: logging.Logger,
     forecast_days: int = FORECAST_DAYS,
+    past_days: int = PAST_DAYS,
 ) -> list[dict]:
     weather_data = []
 
     for city in cities:
-        weather_data.append(fetch_weather_for_city(city, logger, forecast_days))
+        weather_data.append(fetch_weather_for_city(city, logger, forecast_days, past_days))
 
     logger.info("Extração concluída: %s cidades consultadas", len(weather_data))
     return weather_data

@@ -16,6 +16,7 @@ DATABASE_FILE = DATABASE_DIR / "clima.db"
 LOG_FILE = LOG_DIR / "etl_clima.log"
 
 OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast"
+PAST_DAYS = 7
 FORECAST_DAYS = 7
 TIMEZONE = "America/Sao_Paulo"
 

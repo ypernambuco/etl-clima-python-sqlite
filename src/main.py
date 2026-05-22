@@ -7,6 +7,7 @@ from src.config import (
     FORECAST_DAYS,
     LOG_FILE,
     METRICS_FILE,
+    PAST_DAYS,
     PROCESSED_WEATHER_FILE,
     RAW_WEATHER_FILE,
 )
@@ -17,11 +18,11 @@ from src.metrics import calculate_weather_metrics, save_metrics
 from src.transform import save_processed_data, transform_weather_data
 
 
-def run_pipeline(forecast_days: int = FORECAST_DAYS) -> None:
+def run_pipeline(forecast_days: int = FORECAST_DAYS, past_days: int = PAST_DAYS) -> None:
     logger = setup_logger(LOG_FILE)
     logger.info("Pipeline de clima iniciado")
 
-    weather_data = fetch_weather_data(CITIES, logger, forecast_days)
+    weather_data = fetch_weather_data(CITIES, logger, forecast_days, past_days)
     save_raw_data(weather_data, RAW_WEATHER_FILE, logger)
 
     dataframe = transform_weather_data(weather_data)
@@ -48,13 +49,21 @@ def parse_args() -> argparse.Namespace:
         metavar="1-16",
         help=f"Quantidade de dias de previsão. Padrão: {FORECAST_DAYS}",
     )
+    parser.add_argument(
+        "--past-days",
+        type=int,
+        default=PAST_DAYS,
+        choices=range(0, 93),
+        metavar="0-92",
+        help=f"Quantidade de dias historicos recentes. Padrao: {PAST_DAYS}",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     try:
-        run_pipeline(args.forecast_days)
+        run_pipeline(args.forecast_days, args.past_days)
     except Exception as error:
         print(f"Erro: {error}", file=sys.stderr)
         return 1
