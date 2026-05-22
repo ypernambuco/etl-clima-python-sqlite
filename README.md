@@ -8,7 +8,7 @@ A ideia é praticar um fluxo comum em dados:
 API -> pandas -> SQLite -> métricas simples
 ```
 
-O projeto foi pensado para ser pequeno, organizado e fácil de explicar em entrevista. Ele não tenta simular uma arquitetura de produção.
+A ideia é manter o projeto pequeno, organizado e fácil de explicar em entrevista. Ele não tenta parecer um sistema de produção.
 
 ## Objetivo
 
@@ -67,7 +67,7 @@ python -m venv .venv
 
 No Windows:
 
-```bash
+```powershell
 .venv\Scripts\activate
 ```
 
