@@ -53,6 +53,7 @@ Neste projeto, a consulta usa previsão diária para algumas capitais brasileira
 - São Paulo
 - Rio de Janeiro
 - Belo Horizonte
+- Brasília
 - Curitiba
 - Recife
 

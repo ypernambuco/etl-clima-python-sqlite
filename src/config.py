@@ -23,6 +23,7 @@ CITIES = [
     {"cidade": "São Paulo", "estado": "SP", "latitude": -23.5505, "longitude": -46.6333},
     {"cidade": "Rio de Janeiro", "estado": "RJ", "latitude": -22.9068, "longitude": -43.1729},
     {"cidade": "Belo Horizonte", "estado": "MG", "latitude": -19.9167, "longitude": -43.9345},
+    {"cidade": "Brasília", "estado": "DF", "latitude": -15.7939, "longitude": -47.8828},
     {"cidade": "Curitiba", "estado": "PR", "latitude": -25.4296, "longitude": -49.2713},
     {"cidade": "Recife", "estado": "PE", "latitude": -8.0476, "longitude": -34.8770},
 ]
