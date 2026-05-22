@@ -28,6 +28,8 @@ etl-clima-python-sqlite/
 |-- logs/
 |-- sql/
 |   |-- metricas_clima.sql
+|-- assets/
+|   |-- screenshots/
 |-- src/
 |   |-- __init__.py
 |   |-- config.py
@@ -89,6 +91,10 @@ Também é possível escolher a quantidade de dias de previsão:
 python -m src.main --forecast-days 3
 ```
 
+## Exemplo De Execução
+
+![Execução do ETL de clima no terminal](assets/screenshots/terminal-etl.png)
+
 ## O Que O Pipeline Faz
 
 1. Consulta a API da Open-Meteo para cada cidade configurada.
@@ -114,6 +120,14 @@ As métricas principais são:
 
 A consulta SQL usada para gerar essas métricas está em `sql/metricas_clima.sql`.
 
+Exemplo de saída das métricas:
+
+| cidade | dias_analisados | temperatura_media_c | precipitacao_total_mm |
+| --- | ---: | ---: | ---: |
+| Recife | 3 | 25.53 | 21.6 |
+| Brasília | 3 | 21.00 | 0.9 |
+| Curitiba | 3 | 12.73 | 14.2 |
+
 ## Projeto Relacionado
 
 Os dados tratados deste ETL também são usados em um dashboard simples feito com Streamlit:
@@ -132,6 +146,8 @@ Este projeto ainda tem algumas limitações:
 
 - usa poucas cidades;
 - consulta apenas dados de previsão diária;
+- as chamadas da API são feitas de forma sequencial;
+- não usa autenticação porque a API pública não exige chave para este uso;
 - usa SQLite local, sem banco em servidor;
 - não tem agendamento automático;
 - a visualização em dashboard fica em um repositório separado;
