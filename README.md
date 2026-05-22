@@ -8,13 +8,13 @@ A ideia é praticar um fluxo comum em dados:
 API -> pandas -> SQLite -> métricas simples
 ```
 
-A ideia é manter o projeto pequeno, organizado e fácil de explicar em entrevista. Ele não tenta parecer um sistema de produção.
+O objetivo foi manter o projeto pequeno, organizado e fácil de explicar em entrevista.
 
 ## Objetivo
 
-- consumir dados diários de clima pela API Open-Meteo;
-- organizar os dados em formato tabular com pandas;
-- salvar os dados tratados em um banco SQLite local;
+- consumir dados de clima usando a API Open-Meteo;
+- transformar os dados com pandas;
+- salvar os dados tratados em SQLite;
 - gerar métricas simples por cidade.
 
 ## Estrutura
@@ -85,7 +85,7 @@ Execute o pipeline:
 python -m src.main
 ```
 
-Também é possível escolher a quantidade de dias de previsão:
+Também dá para escolher quantos dias de previsão consultar:
 
 ```bash
 python -m src.main --forecast-days 3
@@ -105,7 +105,7 @@ python -m src.main --forecast-days 3
 6. Calcula métricas simples por cidade.
 7. Salva as métricas em `data/processed/metricas_clima.csv`.
 
-Os arquivos gerados são ignorados pelo Git para manter o repositório limpo.
+Os arquivos gerados são ignorados pelo Git para manter o repositório mais limpo.
 
 ## Métricas Geradas
 
@@ -136,29 +136,31 @@ https://github.com/ypernambuco/dashboard-clima-streamlit
 
 ## Aprendizados
 
-Neste projeto, pratiquei a leitura de dados vindos de uma API, a transformação de JSON em tabela com pandas e a carga em um banco SQLite local.
+Neste projeto, pratiquei:
+- leitura de dados vindos de API;
+- transformação de JSON em tabela com pandas;
+- carga de dados em SQLite;
+- organização de um pipeline ETL simples;
+- separação do código em etapas menores.
 
-Também foi útil separar o código em etapas simples: extração, transformação, carga e métricas. A separação deixa o projeto mais fácil de testar e explicar, sem precisar usar ferramentas mais complexas.
+A divisão entre extração, transformação, carga e métricas ajudou a deixar o projeto mais organizado e fácil de entender.
 
 ## Limitações
 
-Este projeto ainda tem algumas limitações:
+O projeto ainda tem algumas limitações:
 
 - usa poucas cidades;
 - consulta apenas dados de previsão diária;
 - as chamadas da API são feitas de forma sequencial;
-- não usa autenticação porque a API pública não exige chave para este uso;
-- usa SQLite local, sem banco em servidor;
-- não tem agendamento automático;
-- a visualização em dashboard fica em um repositório separado;
-- não possui testes automatizados ainda;
+- usa SQLite local;
+- não possui agendamento automático;
+- o dashboard fica em um repositório separado;
+- ainda não possui testes automatizados;
 - depende da disponibilidade da API no momento da execução.
-
-Essas limitações são intencionais para manter o escopo simples e adequado a um projeto júnior.
 
 ## Próximos Passos
 
-- Adicionar testes para as transformações principais.
-- Permitir configurar cidades por arquivo CSV.
-- Criar mais algumas consultas SQL de análise.
-- Gerar um pequeno relatório em CSV com os principais indicadores.
+- adicionar testes para as transformações principais;
+- permitir configurar cidades por CSV;
+- criar mais consultas SQL de análise;
+- gerar relatórios simples em CSV.
