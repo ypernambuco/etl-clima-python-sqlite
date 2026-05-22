@@ -114,6 +114,12 @@ As métricas principais são:
 
 A consulta SQL usada para gerar essas métricas está em `sql/metricas_clima.sql`.
 
+## Projeto Relacionado
+
+Os dados tratados deste ETL também são usados em um dashboard simples feito com Streamlit:
+
+https://github.com/ypernambuco/dashboard-clima-streamlit
+
 ## Aprendizados
 
 Neste projeto, pratiquei a leitura de dados vindos de uma API, a transformação de JSON em tabela com pandas e a carga em um banco SQLite local.
@@ -128,7 +134,7 @@ Este projeto ainda tem algumas limitações:
 - consulta apenas dados de previsão diária;
 - usa SQLite local, sem banco em servidor;
 - não tem agendamento automático;
-- não tem dashboard;
+- a visualização em dashboard fica em um repositório separado;
 - não possui testes automatizados ainda;
 - depende da disponibilidade da API no momento da execução.
 
