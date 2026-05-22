@@ -11,6 +11,7 @@ LOG_DIR = PROJECT_ROOT / "logs"
 
 RAW_WEATHER_FILE = RAW_DATA_DIR / "clima_raw.json"
 PROCESSED_WEATHER_FILE = PROCESSED_DATA_DIR / "clima_tratado.csv"
+METRICS_FILE = PROCESSED_DATA_DIR / "metricas_clima.csv"
 DATABASE_FILE = DATABASE_DIR / "clima.db"
 LOG_FILE = LOG_DIR / "etl_clima.log"
 
